@@ -8,8 +8,8 @@ export const verifyPhone=async (req,res)=>{
 
         const decode=await admin.auth().verifyIdToken(idToken);
 
-        const phoneNumber=decode.phone_number;
-        if(!phoneNumber){
+        const phone=decode.phone_number;
+        if(!phone){
             return res.status(400).json({message:"Phone not present in token"});
         }
         const user=await User.findOne({phone});

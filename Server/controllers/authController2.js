@@ -1,7 +1,6 @@
 import jwt from "jsonwebtoken";
 import User from "../models/user";
-import bcrypt from "bcryptjs"
-import nodemailer from "nodemailer"
+import bcrypt from "bcryptjs";
 import transporter from "../config/nodeMailer";
 
 

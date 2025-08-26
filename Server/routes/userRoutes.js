@@ -1,17 +1,11 @@
-import { register,login } from "../controllers/authController.js";
-
 import { Router } from "express";
-import { forgetpassword, resetpassword } from "../controllers/authController2.js";
+import { addFamilyMembers, getProfile } from "../controllers/userController";
 
-const userRouter=Router();
 
-userRouter.post("/register", (req, res, next) => {
-    console.log("Register route called");
-    next();
-  }, register);
-userRouter.post("/login",login);
+const userRoutes=Router();
 
-userRouter.post("/forgot-password",forgetpassword);
-userRouter.post("/reset-password/:token",resetpassword);
+userRoutes.get("/profile",getProfile);
+userRoutes.post("/family",addFamilyMembers);
+// userRoutes.post("/family/memberId/:memberid/medical",addMedicalRecord);
 
-export default userRouter;
+export default userRoutes;

@@ -1,35 +1,6 @@
 import mongoose  from "mongoose";
+import familySchema from "./family";
 
-const familySchema =new mongoose.Schema({
-    name: {type: String , required : true},
-    age: {type: Number,required: true},
-    gender: {type: String, enum:["Male","Female","other","MySelf"]},
-    relation: {type: String},
-    medicalrecords:[
-        {
-            prescription:{type: String},
-            labReports:[
-                {
-                    reportName:{type: String},
-                    fileType:{type: String, enum:["Image","pdf"]},
-                    filePath:{type:String, required: true},
-                    uploadedAt:{type: Date, default:Date.now}
-                }
-            ],
-            appointments:[
-                {
-                    departments:{type: String},
-                    doctor:{ type : String},
-                    date: {type: Date},
-                    time: {type: String},
-                    type: {type: String, enum:["Emergency","Regular"]},
-                    queuePosition: {type :Number},
-                    otp:{type: String}
-                }
-            ]
-        }
-    ]
-})
 
 const userSchema=new mongoose.Schema(
     {
