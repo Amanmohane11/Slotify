@@ -1,4 +1,4 @@
-# Appointment Booking and Medical Record Management System  
+# Appointment Booking Web App  
 
 ## 📌 Project Overview  
 This project is a **full-stack healthcare and salon appointment booking platform** that allows users to conveniently schedule appointments, manage medical records, access lab reports, and track their queue in real-time. The system is designed to handle both **hospital and salon appointments** with advanced features for patients, doctors, lab technicians, and service providers.  
@@ -66,6 +66,5 @@ This project is a **full-stack healthcare and salon appointment booking platform
 ---
 
 ## 📅 Current Status  
-✅ Project planning and module design completed  
-✅ Schema design for **users, family members, medical records, and lab reports**  
+✅ Project planning and module design completed.  
 🔄 **Currently working on the backend (Node.js + Express + MongoDB)**  
