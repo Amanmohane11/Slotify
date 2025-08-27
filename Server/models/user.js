@@ -13,7 +13,13 @@ const userSchema=new mongoose.Schema(
            latitude:{type:Number},
            longitude:{type:Number} 
         },
+        role: {
+            type: String,
+            enum: ["member", "doctor", "salonOwner", "hospital", "ambulance", "admin"],
+            default: "member"
+          },
         familyMembers:[familySchema],
+       
         nearbyServices:{
             ambulances:[
                 {
