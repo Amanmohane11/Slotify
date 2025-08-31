@@ -15,21 +15,20 @@ const prescriptionSchema = new mongoose.Schema({
     uploadedAt: { type: Date, default: Date.now }
   });
 
-  const appointmentSchema = new mongoose.Schema({
-    department: { type: String },
-    doctor: { type: String },
-    date: { type: Date },
-    time: { type: String },
-    type: { type: String, enum: ["Emergency", "Regular"] },
-    queuePosition: { type: Number },
-    otp: { type: String }
-  });
+  // const appointmentSchema = new mongoose.Schema({
+  //   department: { type: String },
+  //   doctor: { type: String },
+  //   date: { type: Date },
+  //   time: { type: String },
+  //   type: { type: String, enum: ["Emergency", "Regular"] },
+  //   queuePosition: { type: Number },
+  //   otp: { type: String }
+  // });
 
   const medicalRecordSchema = new mongoose.Schema({
     diagnosis: { type: String, required: true },
     prescriptions: [prescriptionSchema], // Prescriptions for this diagnosis
     labReports: [labReportSchema],       // Lab reports for this diagnosis
-    appointments: [appointmentSchema],
     uploadedAt: { type: Date, default: Date.now }    // Appointments for this diagnosis
   });
 

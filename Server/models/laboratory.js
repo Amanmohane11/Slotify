@@ -5,6 +5,8 @@ const labSchema = new mongoose.Schema(
     // Reference to User (lab owner / manager)
     user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
 
+    hospital: { type: mongoose.Schema.Types.ObjectId, ref: "Hospital", default: null },
+
     name: { type: String, required: true },
     address: { type: String, required: true },
     contactNumber: { type: String },

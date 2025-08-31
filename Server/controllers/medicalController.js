@@ -16,7 +16,7 @@ export const addMedicalRecord = async (req, res) => {
         uploadedAt: new Date(),
         prescriptions: [],
         labReports: [],
-        appointments: []
+        
       };
   
       familyMember.medicalrecords.push(newRecord);

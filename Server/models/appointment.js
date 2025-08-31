@@ -5,6 +5,7 @@ const options = { discriminatorKey: "type", timestamps: true };
 /* ---------------- Base Appointment ---------------- */
 const baseAppointmentSchema = new mongoose.Schema({
   user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+  familyMemberId: { type: mongoose.Schema.Types.ObjectId },
   date: { type: Date, required: true },
   slot: { type: String, required: true }, // e.g. "10:00-10:30 AM"
 
