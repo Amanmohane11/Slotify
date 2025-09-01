@@ -7,8 +7,9 @@ const baseAppointmentSchema = new mongoose.Schema({
   user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
   familyMemberId: { type: mongoose.Schema.Types.ObjectId },
   date: { type: Date, required: true },
-  slot: { type: String, required: true }, // e.g. "10:00-10:30 AM"
-
+  slot: { type: mongoose.Schema.Types.ObjectId, ref: "Slot" },
+  // e.g. "10:00-10:30 AM"
+  
   queueNumber: { type: Number },      // Queue position
   estimatedTime: { type: Number },    // Estimated wait time (mins)
   status: {
