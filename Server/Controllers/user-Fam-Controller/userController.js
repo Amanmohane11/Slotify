@@ -1,10 +1,10 @@
-import ambulance from "../models/ambulance";
-import doctor from "../models/doctor";
-import hospital from "../models/hospital";
-import laboratory from "../models/laboratory";
-import saloon from "../models/saloon";
-import User from "../models/user";
-import ApiError from "../utils/ApiError";
+import ambulance from "../../models/ambulance";
+import doctor from "../../models/doctor";
+import hospital from "../../models/hospital";
+import laboratory from "../../models/laboratory";
+import saloon from "../../models/saloon";
+import User from "../../models/user";
+import ApiError from "../../utils/ApiError";
 
 export const getProfile = async (req, res, next) => {
   try {
@@ -41,6 +41,11 @@ export const getProfile = async (req, res, next) => {
   }
 };
 
+
+export const updateUserProfile=async (req,res)=>{
+
+}
+
 export const addFamilyMembers = async (req, res, next) => {
   try {
     const { name, age, gender, relation } = req.body;
@@ -61,6 +66,19 @@ export const addFamilyMembers = async (req, res, next) => {
     next(new ApiError(500, "Server error"));
   }
 };
+
+export const updateFamilyMember= async(req,res)=>{
+
+}
+
+export const deleteFamilyMember=async  (req,res)=>{
+
+}
+
+export const getFamilyMembers=async (req,res)=>{
+
+}
+
 
 
 
