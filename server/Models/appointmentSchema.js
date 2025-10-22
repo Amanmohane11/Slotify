@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const appointmentSchema = new mongoose.Schema({
-  customer: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+  user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
   business: { type: mongoose.Schema.Types.ObjectId, ref: "Business", required: true },
   professional: { type: mongoose.Schema.Types.ObjectId, ref: "Professional", required: true },
 
@@ -17,13 +17,24 @@ const appointmentSchema = new mongoose.Schema({
   startTime: { type: String, required: true },
   endTime: { type: String, required: true },
 
-  status: { type: String, enum: ["pending", "confirmed", "completed", "cancelled"], default: "pending" },
-  paymentStatus: { type: String, enum: ["pending", "paid", "refunded"], default: "pending" },
+  status: {
+    type: String,
+    enum: ["pending", "confirmed", "completed", "cancelled", "needs_reschedule"],
+    default: "pending"
+  },
+  paymentStatus: {
+    type: String,
+    enum: ["pending", "paid", "refunded"],
+    default: "pending"
+  },
 
   totalAmount: { type: Number, required: true },
   notes: String,
 
-  isActive: { type: Boolean, default: true }, // owner can deactivate/cancel booking
+  isActive: { type: Boolean, default: true },
+
+  // 🔔 NEW FIELD: so customer can be notified if appointment needs reschedule
+  customerNotification: { type: Boolean, default: false },
 
   rescheduleHistory: [
     {
@@ -32,13 +43,13 @@ const appointmentSchema = new mongoose.Schema({
       newDate: Date,
       newStartTime: String,
       reason: String,
-      changedAt: { type: Date, default: Date.now }
+      changedAt: { type: Date, default: Date.now },
+      changedBy: { type: String, default: "system" } // optional: system / owner / customer
     }
   ],
 
 }, { timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true } });
 
-// Indexes to optimize queries
 appointmentSchema.index({ business: 1, date: 1 });
 appointmentSchema.index({ professional: 1, date: 1 });
 

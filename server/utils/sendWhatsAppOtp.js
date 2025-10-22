@@ -4,7 +4,7 @@ export const sendWhatsAppOtp=async (phone,otp)=>{
     try {
         const formattedPhone=phone.startsWith("+")?phone:+`91${phone}`;
         const token=process.env.WHATSAPP_TOKEN;
-        const phoneNumberid=process.env.WHATSAPP_PHONE_NUMBER_ID;
+        const phoneNumberId=process.env.WHATSAPP_PHONE_NUMBER_ID;
 
         const messageData={
             messaging_product:"whatsapp",

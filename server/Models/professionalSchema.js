@@ -22,6 +22,15 @@ const professionalSchema = new mongoose.Schema({
     }
   ],
 
+  breaks: [
+    {
+      dayOfWeek: { type: Number, required: true }, // 0-6
+      startTime: { type: String, required: true },
+      endTime: { type: String, required: true },
+      label: { type: String,enum:["Lunch","Dinner"], default: "Lunch" }
+    }
+  ],
+
   // Time-off for specific dates
   timeOff: [
     {

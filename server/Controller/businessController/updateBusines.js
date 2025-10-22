@@ -1,5 +1,5 @@
-import businesses from "../../Models/businessSchema";
-import professionals from "../../Models/professionalSchema";
+import Businesses from "../../Models/businessSchema";
+import Professionals from "../../Models/professionalSchema";
 
 export const update_Business_Profile=async (req,res)=>{
     try {
@@ -7,7 +7,7 @@ export const update_Business_Profile=async (req,res)=>{
         const update=req.body;
        
 
-        const business=await businesses.findById(businessId)
+        const business=await Businesses.findById(businessId)
         if(business){
             return res.status(400).json({message:"business not found"})
         }
@@ -33,53 +33,115 @@ export const update_Business_Profile=async (req,res)=>{
 
     }
 }
-export const update_Professionals=async (req,res)=>{
+
+
+
+
+export const activate_Bookings=async (req,res)=>{
     try {
-        const {professionalsId}=req.params;
-        const updates=req.body;
+        const {type,id, isActive}=req.body;
 
-        const professional=await professionals.findById(professionalsId);
-        if(professional){
-            return res.status(400).json({message:"professional not found"})
+        if(!type || !id){
+            return res.status(400).json({message:"type and ID are required"});
         }
 
-        if(req.user.role!="businessOwner" || req.user._id.toString()!==professional.owner.toString()){
-            return res.status(400).json({message:"Unauthorized to update this professional"});
-        }
-
-
-        Object.keys(updates).forEach((key)=>{
-            professional[key]=updates[key];
-        });
+        if (type === "business") {
+            const business = await Business.findById(id);
+            if (!business) return res.status(404).json({ message: "Business not found" });
       
-        if(req.file){
-            professional.photo=req.file.path;
+            business.isBookingActive = isActive ?? !business.isBookingActive;
+            await business.save();
+      
+            return res.status(200).json({
+              message: `Bookings ${business.isBookingActive ? "activated" : "deactivated"} for business`,
+              business,
+            });
+
         }
 
-        await professional.save();
+        if (type === "appointment") {
+            const appointment = await Appointment.findById(id);
+            if (!appointment) return res.status(404).json({ message: "Appointment not found" });
+      
+            appointment.isActive = isActive ?? !appointment.isActive;
+            await appointment.save();
+      
+            return res.status(200).json({
+              message: `Appointment ${appointment.isActive ? "activated" : "deactivated"} successfully`,
+              appointment,
+            });
+          }
 
-       return res.status(200).json({
-            message:"Professional updated successfully"
-        });
 
-       
-
-        } catch (error) {
-            console.error("Error updating professional:", error);
-            res.status(500).json({ message: "Server error" });
+        res.status(400).json({message:"Invalid type must be 'business' or 'appointment'" })
+    } catch (error) {
+        console.error("Error activating bookings:", error);
+        res.status(500).json({ message: "Server error", error });
     }
 }
 
-
-
-export const update_Shift_Professionals=async (req,res)=>{
-    
-}
-export const activate_Bookings=async (req,res)=>{
-    
-}
-
 export const update_Weekly_Shedule_Prof=async (req,res)=>{
+try {
+    const {professionalsId, updates}=req.body;
 
+    if (!professionalsId || !updates) {
+        return res.status(400).json({ message: "Professional ID and updates are required" });
+      }
+  
+      const professional = await Professionals.findById(professionalsId);
+      if (!professional) {
+        return res.status(404).json({ message: "Professional not found" });
+      }
+
+      updates.forEach((update)=>{
+        const index=professional.schedule.findIndex(
+            (s)=> s.dayOfWeek=== update.dayOfWeek
+        );
+
+        if(index>=0){
+            professional.schedule[index]={...professional.schedule[index]._doc,...update};
+        }else{
+            professional.schedule.push(update);
+        }
+      })
+
+} catch (error) {
+    
 }
+}
+
+
+
+export const update_LunchBreak = async (req, res) => {
+  try {
+    const { professionalId, breakId, startTime, endTime, label } = req.body;
+
+    if (!professionalId || !breakId || !startTime || !endTime) {
+      return res.status(400).json({ message: "professionalId, breakId, startTime and endTime are required." });
+    }
+
+    const professional = await Professionals.findById(professionalId);
+    if (!professional) return res.status(404).json({ message: "Professional not found." });
+
+    const brk = professional.breaks.id(breakId); // find by subdocument ID
+    if (!brk) return res.status(404).json({ message: "Break not found." });
+
+    // Update fields
+    brk.startTime = startTime;
+    brk.endTime = endTime;
+    if (label) brk.label = label;
+
+    await professional.save();
+
+    return res.status(200).json({
+      message: "Break updated successfully.",
+      break: brk,
+    });
+
+  } catch (error) {
+    console.error("Error updating break:", error);
+    return res.status(500).json({ message: "Internal server error", error: error.message });
+  }
+};
+
     
